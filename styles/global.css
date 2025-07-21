@@ -69,12 +69,7 @@ body {
 /* Desktop: adjust for collapsed sidebar */
 @media (min-width: 1024px) {
   .notion-sidebar-offset {
-    margin-left: 16rem; /* 256px - default sidebar width */
-  }
-  
-  /* When sidebar is collapsed on desktop, reduce margin */
-  body:has(.navigationSidebar.collapsed) .notion-sidebar-offset {
-    margin-left: 4rem; /* 64px - collapsed sidebar width */
+    margin-left: calc(16rem - (var(--sidebar-collapsed, 0) * 12rem)); /* 256px when open, 64px when collapsed */
   }
 }
 

@@ -42,13 +42,23 @@ export default function NavigationSideBar() {
     setIsCollapsed(!isCollapsed);
   };
 
+  // Update CSS custom property for content offset
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.documentElement.style.setProperty(
+        '--sidebar-collapsed', 
+        isCollapsed ? '1' : '0'
+      );
+    }
+  }, [isCollapsed]);
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Toggle sidebar with Ctrl/Cmd + B
       if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
         event.preventDefault();
-        toggleSidebar();
+        setIsCollapsed(!isCollapsed);
       }
       // Close sidebar on Escape (mobile only)
       if (event.key === 'Escape' && isMobile && !isCollapsed) {
@@ -63,6 +73,12 @@ export default function NavigationSideBar() {
   useEffect(() => {
     const fetchNavigation = async () => {
       try {
+        // Only fetch on client side to avoid SSG issues
+        if (typeof window === 'undefined') {
+          setIsLoading(false);
+          return;
+        }
+        
         const response = await fetch('/config/navigation.yaml', { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`Failed to fetch navigation: ${response.statusText}`);
@@ -104,13 +120,6 @@ export default function NavigationSideBar() {
       </div>
     );
   }
-
-  // Handle backdrop click on mobile
-  const handleBackdropClick = (event: React.MouseEvent) => {
-    if (isMobile && !isCollapsed && event.target === event.currentTarget) {
-      setIsCollapsed(true);
-    }
-  };
 
   return (
     <>
