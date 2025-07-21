@@ -2,6 +2,7 @@ import * as yaml from 'js-yaml'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { FiChevronLeft, FiMenu } from 'react-icons/fi'
 
 import styles from './NavigationSideBar.module.css'
 
@@ -18,7 +19,46 @@ export default function NavigationSideBar() {
   const [navigationItems, setNavigationItems] = useState<NavigationItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+
+  // Handle window resize and set initial state
+  useEffect(() => {
+    const checkIfMobile = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      // On mobile, sidebar starts collapsed
+      // On desktop, sidebar starts open
+      setIsCollapsed(mobile);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Toggle sidebar with Ctrl/Cmd + B
+      if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
+        event.preventDefault();
+        toggleSidebar();
+      }
+      // Close sidebar on Escape (mobile only)
+      if (event.key === 'Escape' && isMobile && !isCollapsed) {
+        setIsCollapsed(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMobile, isCollapsed]);
 
   useEffect(() => {
     const fetchNavigation = async () => {
@@ -65,11 +105,39 @@ export default function NavigationSideBar() {
     );
   }
 
+  // Handle backdrop click on mobile
+  const handleBackdropClick = (event: React.MouseEvent) => {
+    if (isMobile && !isCollapsed && event.target === event.currentTarget) {
+      setIsCollapsed(true);
+    }
+  };
+
   return (
-    <div className={styles.navigationSidebar}>
-      <div className={styles.sidebarContent}>
+    <>
+      {/* Mobile backdrop */}
+      {isMobile && !isCollapsed && (
+        <div 
+          className={styles.backdrop}
+          onClick={() => setIsCollapsed(true)}
+          aria-hidden="true"
+        />
+      )}
+      
+      <div className={`${styles.navigationSidebar} ${isCollapsed ? styles.collapsed : ''}`}>
+      <button 
+        onClick={toggleSidebar}
+        className={styles.toggleButton}
+        aria-label={isCollapsed ? 'Open navigation menu' : 'Close navigation menu'}
+        aria-expanded={!isCollapsed}
+        aria-controls="navigation-sidebar"
+        title={`${isCollapsed ? 'Open' : 'Close'} navigation (${isMobile ? 'Esc' : 'Ctrl+B'})`}
+      >
+        {isCollapsed ? <FiMenu className={styles.menuIcon} /> : <FiChevronLeft className={styles.chevronIcon} />}
+      </button>
+      
+      <div className={styles.sidebarContent} id="navigation-sidebar">
         {/* Navigation Items */}
-        <nav className={styles.nav}>
+        <nav className={styles.nav} role="navigation" aria-label="Main navigation">
           {navigationItems.map((item) => {
             const isActive = router.asPath.includes(item.id);
             return (
@@ -77,6 +145,7 @@ export default function NavigationSideBar() {
                 href={`/${item.id}`} 
                 key={item.id}
                 className={`${styles.navItem} ${isActive ? styles.navItemActive : ''}`}
+                onClick={() => isMobile && setIsCollapsed(true)}
               >
                 {item.name}
               </Link>
@@ -85,5 +154,6 @@ export default function NavigationSideBar() {
         </nav>
       </div>
     </div>
+    </>
   );
 }

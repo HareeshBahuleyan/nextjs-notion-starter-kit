@@ -10,6 +10,29 @@
   background-color: var(--bg-color);
   border-right: 1px solid var(--fg-color-0);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  transform: translateX(0);
+}
+
+.navigationSidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+/* Desktop collapsed state */
+@media (min-width: 1024px) {
+  .navigationSidebar.collapsed {
+    transform: translateX(0);
+    width: 4rem; /* 64px */
+  }
+  
+  .navigationSidebar.collapsed .sidebarContent {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .navigationSidebar.collapsed .toggleButton {
+    transform: translateX(0.5rem);
+  }
 }
 
 .sidebarContent {
@@ -19,6 +42,73 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Toggle Button */
+.toggleButton {
+  position: absolute;
+  top: 1rem;
+  right: -0.75rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--fg-color-0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggleButton:hover {
+  background-color: rgba(55, 53, 47, 0.05);
+  transform: scale(1.05);
+}
+
+.toggleButton:focus {
+  outline: 2px solid var(--fg-color-0);
+  outline-offset: 2px;
+}
+
+.toggleButton:active {
+  transform: scale(0.95);
+}
+
+.menuIcon,
+.chevronIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--fg-color);
+  transition: transform 0.2s ease-in-out;
+}
+
+.chevronIcon {
+  transform: rotate(0deg);
+}
+
+.navigationSidebar.collapsed .chevronIcon {
+  transform: rotate(180deg);
+}
+
+/* Mobile toggle button positioning */
+@media (max-width: 1023px) {
+  .toggleButton {
+    top: 1rem;
+    left: 1rem;
+    right: auto;
+    background-color: var(--bg-color);
+    border: 1px solid var(--fg-color-0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navigationSidebar.collapsed .toggleButton {
+    position: fixed;
+    z-index: 60;
+  }
 }
 
 .nav {
@@ -92,39 +182,62 @@
   font-size: 0.9rem;
 }
 
+/* Mobile backdrop */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 35;
+  animation: fadeIn 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+/* Mobile overlay */
+@media (max-width: 1023px) {
+  .navigationSidebar {
+    width: 20rem; /* 320px on mobile for better usability */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navigationSidebar.collapsed {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .navigationSidebar {
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--fg-color-0);
+    width: 18rem; /* Slightly smaller on smaller screens */
   }
   
   .sidebarContent {
     padding: 1rem;
   }
-  
-  .nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  
-  .navItem {
-    flex: 1;
-    min-width: fit-content;
-    text-align: center;
-  }
 }
 
 @media (max-width: 480px) {
-  .nav {
-    flex-direction: column;
-    gap: 0.25rem;
+  .navigationSidebar {
+    width: 16rem; /* Even smaller on very small screens */
+  }
+  
+  .sidebarContent {
+    padding: 0.75rem;
   }
   
   .navItem {
-    flex: none;
+    font-size: 0.9rem;
+    padding: 0.75rem;
   }
 }

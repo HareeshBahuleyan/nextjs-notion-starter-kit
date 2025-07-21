@@ -60,3 +60,27 @@ body {
 ::-webkit-scrollbar-track {           
     background-color: var(--bg-color);
 }
+
+/* Sidebar offset adjustments */
+.notion-sidebar-offset {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Desktop: adjust for collapsed sidebar */
+@media (min-width: 1024px) {
+  .notion-sidebar-offset {
+    margin-left: 16rem; /* 256px - default sidebar width */
+  }
+  
+  /* When sidebar is collapsed on desktop, reduce margin */
+  body:has(.navigationSidebar.collapsed) .notion-sidebar-offset {
+    margin-left: 4rem; /* 64px - collapsed sidebar width */
+  }
+}
+
+/* Mobile: no margin when sidebar is hidden */
+@media (max-width: 1023px) {
+  .notion-sidebar-offset {
+    margin-left: 0;
+  }
+}

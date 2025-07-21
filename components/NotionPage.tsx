@@ -298,9 +298,9 @@ export function NotionPage({
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
       
-      <div className="relative min-h-screen bg-white">
+      <div className="relative min-h-screen bg-white flex">
         <NavigationSideBar />
-        <div className="pl-64 w-full" style={{ marginLeft: '16rem' }}>
+        <div className="flex-1 transition-all duration-300 ease-in-out ml-0 lg:ml-64 notion-sidebar-offset">
           <NotionRenderer
         bodyClassName={cs(
           styles.notion,
