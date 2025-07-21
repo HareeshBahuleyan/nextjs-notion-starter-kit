@@ -1,0 +1,12 @@
+# Navigation configuration
+# Each item represents a section in the sidebar
+# id: The Notion page ID (the part after the last dash in the page URL)
+# name: The display name for the navigation link
+
+sections:
+  - name: "About"
+    id: "about-2335237f835781669a67fbaded44c65a"
+  - name: "Contact"
+    id: "contact-2335237f835781c78d6dc2af232281cc"
+  - name: "Blog"
+    id: "blog-posts-2365237f83578009abd7cf7866c753b6"

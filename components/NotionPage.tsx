@@ -23,6 +23,7 @@ import { searchNotion } from '@/lib/search-notion'
 
 import { Footer } from './Footer'
 import { Loading } from './Loading'
+import NavigationSideBar from './NavigationSideBar'
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
@@ -296,8 +297,11 @@ export function NotionPage({
       />
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
-
-      <NotionRenderer
+      
+      <div className="flex min-h-screen">
+        <NavigationSideBar />
+        <div className="flex-1">
+          <NotionRenderer
         bodyClassName={cs(
           styles.notion,
           pageId === site.rootNotionPageId && 'index-page'
@@ -317,10 +321,11 @@ export function NotionPage({
         mapPageUrl={siteMapPageUrl}
         mapImageUrl={mapImageUrl}
         searchNotion={config.isSearchEnabled ? searchNotion : undefined}
-        pageAside={pageAside}
-        footer={footer}
-      />
-
+            pageAside={pageAside}
+            footer={footer}
+          />
+        </div>
+      </div>
     </>
   )
 }
