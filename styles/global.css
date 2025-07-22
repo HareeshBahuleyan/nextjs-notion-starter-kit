@@ -81,3 +81,10 @@ body {
     padding-left: 0.5rem;
   }
 }
+
+@media (max-width: 720px) {
+  .page-container {
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+}

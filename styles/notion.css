@@ -405,3 +405,14 @@
 .notion-equation.notion-equation-block{
   align-items: center;
 }
+@media only screen and (max-width: 720px) {
+  .notion-row,
+  .notion-block {
+    padding: 0;
+  }
+  .notion-page-title,
+  .notion-breadcrumb {
+    padding-left: 0;
+  }
+}
+

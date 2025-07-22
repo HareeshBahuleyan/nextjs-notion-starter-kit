@@ -298,7 +298,7 @@ export function NotionPage({
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
       
-      <div className="relative min-h-screen bg-white flex">
+      <div className="relative min-h-screen bg-white flex page-container">
         <NavigationSideBar />
         <div className="flex-1 transition-all duration-300 ease-in-out ml-0 lg:ml-64 notion-sidebar-offset">
           <NotionRenderer
