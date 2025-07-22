@@ -6,17 +6,22 @@ import { FiChevronLeft, FiMenu } from 'react-icons/fi'
 
 import styles from './NavigationSideBar.module.css'
 
-interface NavigationItem {
+interface NavigationPage {
   name: string;
   id: string;
 }
 
+interface NavigationSection {
+  name: string;
+  pages: NavigationPage[];
+}
+
 interface NavigationConfig {
-  sections: NavigationItem[];
+  sections: NavigationSection[];
 }
 
 export default function NavigationSideBar() {
-  const [navigationItems, setNavigationItems] = useState<NavigationItem[]>([]);
+  const [navigationSections, setNavigationSections] = useState<NavigationSection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -85,7 +90,7 @@ export default function NavigationSideBar() {
         }
         const yamlText = await response.text();
         const data = yaml.load(yamlText) as NavigationConfig;
-        setNavigationItems(data.sections || []);
+        setNavigationSections(data.sections || []);
       } catch (err) {
         console.error('Error loading navigation:', err);
         setError('Failed to load navigation');
@@ -164,19 +169,28 @@ export default function NavigationSideBar() {
         <div className={styles.sidebarContent} id="navigation-sidebar">
           {/* Navigation Items */}
           <nav className={styles.nav} role="navigation" aria-label="Main navigation">
-            {navigationItems.map((item) => {
-              const isActive = router.asPath.includes(item.id);
-              return (
-                <Link 
-                  href={`/${item.id}`} 
-                  key={item.id}
-                  className={`${styles.navItem} ${isActive ? styles.navItemActive : ''}`}
-                  onClick={() => isMobile && setIsCollapsed(true)}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
+            {navigationSections.map((section) => (
+            <div key={section.name} className={styles.navSection}>
+              <div className={styles.navSectionHeader}>
+                {section.name}
+              </div>
+              <div className={styles.navSectionContent}>
+                {section.pages.map((page) => {
+                  const isActive = router.asPath.includes(page.id);
+                  return (
+                    <Link 
+                      href={`/${page.id}`} 
+                      key={page.id}
+                      className={`${styles.navItem} ${isActive ? styles.navItemActive : ''}`}
+                      onClick={() => isMobile && setIsCollapsed(true)}
+                    >
+                      {page.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
           </nav>
         </div>
       </div>
