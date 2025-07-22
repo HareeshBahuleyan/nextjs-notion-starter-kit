@@ -2,11 +2,14 @@
   "extends": "@fisch0920/config/tsconfig-react",
   "compilerOptions": {
     "baseUrl": ".",
+    "jsx": "preserve",
+    "jsxImportSource": "react",
     "paths": {
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
       "@/styles/*": ["styles/*"]
-    }
+    },
+    "types": ["node", "react", "react-dom"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "*.config.ts"],
   "exclude": ["node_modules"]

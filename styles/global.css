@@ -60,3 +60,31 @@ body {
 ::-webkit-scrollbar-track {           
     background-color: var(--bg-color);
 }
+
+/* Sidebar offset adjustments */
+.notion-sidebar-offset {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Desktop: adjust for collapsed sidebar */
+@media (min-width: 1024px) {
+  .notion-sidebar-offset {
+    margin-left: calc(16rem - (var(--sidebar-collapsed, 0) * 12rem)); /* 256px when open, 64px when collapsed */
+  }
+}
+
+/* Mobile: no margin when sidebar is hidden */
+@media (max-width: 1023px) {
+  .notion-sidebar-offset {
+    margin-left: 0;
+    /* Add padding to prevent overlap with burger button */
+    padding-left: 0.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .page-container {
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+}
