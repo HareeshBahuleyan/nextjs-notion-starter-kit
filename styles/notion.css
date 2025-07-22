@@ -360,6 +360,21 @@
   backdrop-filter: saturate(180%) blur(16px);
 }
 
+/* Add padding for burger button on mobile/tablet */
+@media (max-width: 1023px) {
+  .notion-header .notion-nav-header {
+    padding-left: 3rem; /* Make room for burger button */
+  }
+  
+  .notion-page-title {
+    padding-left: 3rem; /* Ensure page title doesn't overlap burger button */
+  }
+  
+  .notion-breadcrumb {
+    padding-left: 3rem; /* Ensure breadcrumbs don't overlap burger button */
+  }
+}
+
 
 
 .notion-bookmark:hover {

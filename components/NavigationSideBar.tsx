@@ -132,37 +132,54 @@ export default function NavigationSideBar() {
         />
       )}
       
-      <div className={`${styles.navigationSidebar} ${isCollapsed ? styles.collapsed : ''}`}>
-      <button 
-        onClick={toggleSidebar}
-        className={styles.toggleButton}
-        aria-label={isCollapsed ? 'Open navigation menu' : 'Close navigation menu'}
-        aria-expanded={!isCollapsed}
-        aria-controls="navigation-sidebar"
-        title={`${isCollapsed ? 'Open' : 'Close'} navigation (${isMobile ? 'Esc' : 'Ctrl+B'})`}
-      >
-        {isCollapsed ? <FiMenu className={styles.menuIcon} /> : <FiChevronLeft className={styles.chevronIcon} />}
-      </button>
+      {/* Mobile Toggle Button - Rendered outside the sidebar */}
+      {isMobile && (
+        <button 
+          onClick={toggleSidebar}
+          className={`${styles.toggleButton} ${styles.mobileToggleButton}`}
+          aria-label={isCollapsed ? 'Open navigation menu' : 'Close navigation menu'}
+          aria-expanded={!isCollapsed}
+          aria-controls="navigation-sidebar"
+          title={`${isCollapsed ? 'Open' : 'Close'} navigation (${isMobile ? 'Esc' : 'Ctrl+B'})`}
+        >
+          {isCollapsed ? <FiMenu className={styles.menuIcon} /> : <FiChevronLeft className={styles.chevronIcon} />}
+        </button>
+      )}
       
-      <div className={styles.sidebarContent} id="navigation-sidebar">
-        {/* Navigation Items */}
-        <nav className={styles.nav} role="navigation" aria-label="Main navigation">
-          {navigationItems.map((item) => {
-            const isActive = router.asPath.includes(item.id);
-            return (
-              <Link 
-                href={`/${item.id}`} 
-                key={item.id}
-                className={`${styles.navItem} ${isActive ? styles.navItemActive : ''}`}
-                onClick={() => isMobile && setIsCollapsed(true)}
-              >
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
+      <div className={`${styles.navigationSidebar} ${isCollapsed ? styles.collapsed : ''}`}>
+        {/* Desktop Toggle Button - Only shown on desktop */}
+        {!isMobile && (
+          <button 
+            onClick={toggleSidebar}
+            className={styles.toggleButton}
+            aria-label="Toggle navigation menu"
+            aria-expanded={!isCollapsed}
+            aria-controls="navigation-sidebar"
+            title="Toggle navigation (Ctrl+B)"
+          >
+            <FiChevronLeft className={styles.chevronIcon} />
+          </button>
+        )}
+        
+        <div className={styles.sidebarContent} id="navigation-sidebar">
+          {/* Navigation Items */}
+          <nav className={styles.nav} role="navigation" aria-label="Main navigation">
+            {navigationItems.map((item) => {
+              const isActive = router.asPath.includes(item.id);
+              return (
+                <Link 
+                  href={`/${item.id}`} 
+                  key={item.id}
+                  className={`${styles.navItem} ${isActive ? styles.navItemActive : ''}`}
+                  onClick={() => isMobile && setIsCollapsed(true)}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
       </div>
-    </div>
     </>
   );
 }

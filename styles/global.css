@@ -77,5 +77,7 @@ body {
 @media (max-width: 1023px) {
   .notion-sidebar-offset {
     margin-left: 0;
+    /* Add padding to prevent overlap with burger button */
+    padding-left: 0.5rem;
   }
 }
