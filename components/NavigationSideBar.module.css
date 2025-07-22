@@ -18,18 +18,31 @@
   transform: translateX(-100%);
 }
 
+/* Base styles for the toggle button, shared across mobile and desktop */
+.toggleButton {
+  position: fixed; /* Use fixed positioning for both */
+  top: 0.75rem;
+  left: 1rem;
+  z-index: 10000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
 /* Mobile styles */
 @media (max-width: 1023px) {
   .navigationSidebar {
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
   }
-  
+
   .navigationSidebar:not(.collapsed) {
     transform: translateX(0);
   }
-  
-  /* Mobile toggle button - shown on mobile when sidebar is collapsed */
+
+  /* Mobile toggle button */
   .toggleButton.mobileToggleButton {
     position: fixed;
     top: 0.75rem;
@@ -38,83 +51,74 @@
     cursor: pointer;
     background: none;
     border: none;
-    padding: 0.25rem; /* Reduced from 0.5rem */
-    display: none; /* Hidden by default */
-    /* Remove any box shadow and background for mobile */
+    padding: 0.25rem;
     box-shadow: none;
+    display: block; /* Ensure it's always visible on mobile */
   }
-  
-  /* Show toggle button on mobile when sidebar is collapsed */
-  @media (max-width: 1023px) {
-    .toggleButton.mobileToggleButton {
-      display: block;
-      background: none !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
-    
-    .toggleButton.mobileToggleButton svg {
-      width: 24px;
-      height: 24px;
-    }
+
+  .toggleButton.mobileToggleButton svg {
+    width: 24px;
+    height: 24px;
   }
-  
+
   .toggleButton.mobileToggleButton:hover {
     opacity: 0.7;
   }
-  
-  /* Remove focus outline/ring */
+
   .toggleButton.mobileToggleButton:focus {
     outline: none;
     box-shadow: none;
   }
-  
-  /* For WebKit browsers */
+
   .toggleButton.mobileToggleButton::-moz-focus-inner {
     border: 0;
   }
-  
-  /* Desktop styles - keep the original circular button */
-  @media (min-width: 1024px) {
-    .toggleButton.mobileToggleButton {
-      background-color: white;
-      border: 1px solid var(--fg-color-0);
-      border-radius: 50%;
-      width: 2.5rem;
-      height: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-    
-    .toggleButton.mobileToggleButton:hover {
-      background-color: rgba(55, 53, 47, 0.05);
-      transform: scale(1.05);
-    }
-  }
-  
+
   /* When sidebar is open, move toggle to the right */
   .navigationSidebar:not(.collapsed) + .mobileToggleButton {
     left: auto;
     right: 1rem;
   }
-  
+
   .navigationSidebar:not(.collapsed) + .mobileToggleButton .menuIcon {
     display: none; /* Hide menu icon when sidebar is open */
   }
-  
+
   .navigationSidebar:not(.collapsed) + .mobileToggleButton .chevronIcon {
     display: block; /* Show chevron when sidebar is open */
   }
-  
-  /* Make sure the toggle button is visible on mobile */
+
   .mobileToggleButton .menuIcon {
     display: block;
   }
-  
+
   .mobileToggleButton .chevronIcon {
     display: none;
+  }
+}
+
+/* Desktop-specific styles */
+@media (min-width: 1024px) {
+  .toggleButton {
+    position: absolute; /* Override fixed position for desktop */
+    top: 1rem;
+    right: -0.75rem;
+    left: auto;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: white;
+    border: 1px solid var(--fg-color-0);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .toggleButton:hover {
+    background-color: rgba(55, 53, 47, 0.05);
+    transform: scale(1.05);
+  }
+
+  .navigationSidebar.collapsed .toggleButton {
+    transform: translateX(0.5rem);
   }
 }
 
