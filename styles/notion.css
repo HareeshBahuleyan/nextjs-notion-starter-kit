@@ -147,6 +147,8 @@
 
 .notion-callout {
   margin: 0.75em 0;
+  border: 2px solid var(--fg-color-3);
+  border-radius: 6px;
 }
 
 .notion-hr {
@@ -388,6 +390,15 @@
 
 .notion-block-260baa77f1e1428b97fb14ac99c7c385 {
   display: none;
+}
+
+.notion-simple-table {
+  border: 2px solid var(--fg-color-1);
+}
+
+.notion-simple-table th,
+.notion-simple-table td {
+  border: 1px solid var(--fg-color-1);
 }
 
 .notion-search .searchBar {
