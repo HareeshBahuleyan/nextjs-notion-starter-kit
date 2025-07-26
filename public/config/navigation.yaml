@@ -6,11 +6,17 @@
 #   - id: The Notion page ID (the part after the last dash in the page URL)
 
 sections:
-  - name: "Home"
+  - name: "Nouns and Articles"
     pages:
-      - name: "About"
-        id: "about-2335237f835781669a67fbaded44c65a"
-      - name: "Contact"
-        id: "contact-2335237f835781c78d6dc2af232281cc"
-      - name: "Blog"
-        id: "blog-posts-2365237f83578009abd7cf7866c753b6"
+      - name: "Gender"
+        id: "gender"
+      - name: "Compound Nouns"
+        id: "compound-nouns"
+      - name: "Plurals"
+        id: "plurals"
+      - name: "Weak Nouns and Adjectival Nouns"
+        id: "weak-nouns-and-adjectival-nouns"
+      - name: "Definite Articles"
+        id: "definite-articles"
+      - name: "Indefinite Articles"
+        id: "indefinite-articles"
