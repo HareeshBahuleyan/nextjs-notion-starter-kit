@@ -3,7 +3,7 @@
 # - name: The display name for the section
 # - pages: List of pages within this section
 #   - name: Display name of the page
-#   - id: The Notion page ID (the part after the last dash in the page URL)
+#   - id: Display name of the subpage
 
 sections:
   - name: "Nouns and Articles"
@@ -30,3 +30,21 @@ sections:
         id: "dative-case"
       - name: "Genitive Case"
         id: "genitive-case"
+  - name: "Pronouns"
+    pages:
+      - name: "Personal Pronouns"
+        id: "personal-pronouns"
+      - name: "Possessive Pronouns"
+        id: "possessive-pronouns"
+      - name: "Demonstrative Pronouns"
+        id: "demonstrative-pronouns"
+      - name: "Reflexive Pronouns"
+        id: "reflexive-pronouns"
+      - name: "Negative Pronouns"
+        id: "negative-pronouns"
+      - name: "Indefinite Pronouns"
+        id: "indefinite-pronouns"
+      - name: "Interrogative Pronouns"
+        id: "interrogative-pronouns"
+      - name: "Relative Pronouns"
+        id: "relative-pronouns"
