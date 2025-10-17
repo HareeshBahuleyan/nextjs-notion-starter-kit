@@ -10,7 +10,7 @@ export default siteConfig({
 
   // basic site info (required)
   name: 'Learn German Grammar',
-  domain: 'learngermangrammar.com',
+  domain: 'www.learngermangrammar.com',
   author: 'Lingo Hive Apps',
 
   // open graph metadata (optional)
