@@ -6,7 +6,9 @@ import * as acl from './acl'
 import { environment, pageUrlAdditions, pageUrlOverrides, site } from './config'
 import { db } from './db'
 import { getSiteMap } from './get-site-map'
+import { getCanonicalPageUrl } from './map-page-url'
 import { getPage } from './notion'
+import { generateStructuredDataJson } from './schema-config'
 
 export async function resolveNotionPage(
   domain: string,
@@ -90,6 +92,31 @@ export async function resolveNotionPage(
     recordMap = await getPage(pageId)
   }
 
-  const props: PageProps = { site, recordMap, pageId }
+  // Generate schema markup for the page
+  let schemaJson: string | undefined
+  try {
+    const keys = Object.keys(recordMap?.block || {})
+    if (keys.length > 0 && recordMap?.block) {
+      const firstKey = keys[0] as string
+      const block = recordMap.block[firstKey]?.value
+      const isBlogPost =
+        block?.type === 'page' && block?.parent_table === 'collection'
+
+      if (block && block.type === 'page') {
+        const canonicalPageUrl = getCanonicalPageUrl(site, recordMap)(pageId)
+        schemaJson = await generateStructuredDataJson(
+          block as any,
+          recordMap,
+          site,
+          canonicalPageUrl || '',
+          isBlogPost
+        )
+      }
+    }
+  } catch (err) {
+    console.error('Error generating schema markup:', err)
+  }
+
+  const props: PageProps = { site, recordMap, pageId, schemaJson }
   return { ...props, ...(await acl.pageAcl(props)) }
 }

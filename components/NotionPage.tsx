@@ -186,7 +186,8 @@ export function NotionPage({
   site,
   recordMap,
   error,
-  pageId
+  pageId,
+  schemaJson
 }: types.PageProps) {
   const router = useRouter()
   const lite = useSearchParam('lite')
@@ -294,34 +295,34 @@ export function NotionPage({
         description={socialDescription}
         image={socialImage}
         url={canonicalPageUrl}
-        isBlogPost={isBlogPost}
+        schemaJson={schemaJson}
       />
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
-      
-      <div className="relative min-h-screen bg-white flex page-container">
+
+      <div className='relative min-h-screen bg-white flex page-container'>
         <NavigationSideBar />
-        <div className="flex-1 transition-all duration-300 ease-in-out ml-0 lg:ml-64 notion-sidebar-offset">
+        <div className='flex-1 transition-all duration-300 ease-in-out ml-0 lg:ml-64 notion-sidebar-offset'>
           <NotionRenderer
-        bodyClassName={cs(
-          styles.notion,
-          pageId === site.rootNotionPageId && 'index-page'
-        )}
-        components={components}
-        recordMap={recordMap}
-        rootPageId={site.rootNotionPageId}
-        rootDomain={site.domain}
-        fullPage={!isLiteMode}
-        previewImages={!!recordMap.preview_images}
-        showCollectionViewDropdown={false}
-        showTableOfContents={showTableOfContents}
-        minTableOfContentsItems={minTableOfContentsItems}
-        defaultPageIcon={config.defaultPageIcon}
-        defaultPageCover={config.defaultPageCover}
-        defaultPageCoverPosition={config.defaultPageCoverPosition}
-        mapPageUrl={siteMapPageUrl}
-        mapImageUrl={mapImageUrl}
-        searchNotion={config.isSearchEnabled ? searchNotion : undefined}
+            bodyClassName={cs(
+              styles.notion,
+              pageId === site.rootNotionPageId && 'index-page'
+            )}
+            components={components}
+            recordMap={recordMap}
+            rootPageId={site.rootNotionPageId}
+            rootDomain={site.domain}
+            fullPage={!isLiteMode}
+            previewImages={!!recordMap.preview_images}
+            showCollectionViewDropdown={false}
+            showTableOfContents={showTableOfContents}
+            minTableOfContentsItems={minTableOfContentsItems}
+            defaultPageIcon={config.defaultPageIcon}
+            defaultPageCover={config.defaultPageCover}
+            defaultPageCoverPosition={config.defaultPageCoverPosition}
+            mapPageUrl={siteMapPageUrl}
+            mapImageUrl={mapImageUrl}
+            searchNotion={config.isSearchEnabled ? searchNotion : undefined}
             pageAside={pageAside}
             footer={footer}
           />
