@@ -75,7 +75,7 @@ sections:
       - name: "Reflexive Verbs"
         id: "reflexive-verbs"
       - name: "Separable and Inseparable Verbs"
-        id: "separable-inseparable-verbs"
+        id: "separable-and-inseparable-verbs"
       - name: "Imperative"
         id: "imperative"
       - name: "Subjunctive I"
