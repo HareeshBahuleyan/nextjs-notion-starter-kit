@@ -1,0 +1,255 @@
+# Schema Markup Configuration for Learn German Grammar
+# This file maps each page to its LearningResource schema properties
+# Format:
+#   - path: URL path (without domain)
+#   - educationalLevel: CEFR level (A1, A2, B1, B2, C1, C2) or range
+#   - topics: Array of topics this page teaches
+#   - learningResourceType: Type of resource (Lesson, Guide, Reference, etc.)
+#   - description: Brief description of what the page teaches
+
+pages:
+  # Home/Main Pages
+  - path: "/"
+    educationalLevel: "A1-C2"
+    topics: ["German Grammar", "Language Learning"]
+    learningResourceType: "Guide"
+    description: "Comprehensive German grammar reference covering all levels from beginner to advanced"
+
+  - path: "/learn-german-grammar"
+    educationalLevel: "A1-C2"
+    topics: ["German Grammar", "Language Learning"]
+    learningResourceType: "Guide"
+    description: "Complete guide to learning German grammar with structured lessons"
+
+  # Nouns and Articles Section
+  - path: "/compound-nouns"
+    educationalLevel: "A2-B1"
+    topics: ["Compound Nouns", "German Nouns", "Word Formation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn how to form and use compound nouns in German"
+
+  - path: "/gender"
+    educationalLevel: "A1"
+    topics: ["Grammatical Gender", "German Nouns", "Articles", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understanding masculine, feminine, and neuter gender in German nouns"
+
+  - path: "/plurals"
+    educationalLevel: "A1-A2"
+    topics: ["Plural Forms", "German Nouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the rules and patterns for forming plural nouns in German"
+
+  - path: "/definite-articles"
+    educationalLevel: "A1"
+    topics: ["Definite Articles", "Der Die Das", "Articles", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the German definite articles der, die, das and their declensions"
+
+  - path: "/weak-nouns-and-adjectival-nouns"
+    educationalLevel: "B1-B2"
+    topics: ["Weak Nouns", "Adjectival Nouns", "German Nouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understanding weak nouns (n-Deklination) and adjectival nouns in German"
+
+  - path: "/indefinite-articles"
+    educationalLevel: "A1"
+    topics: ["Indefinite Articles", "Ein Eine", "Articles", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to use German indefinite articles ein, eine, ein and their declensions"
+
+  - path: "/other-determiners--possessive-and-demonstrative"
+    educationalLevel: "A1-A2"
+    topics: ["Possessive Determiners", "Demonstrative Determiners", "Articles", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master possessive determiners (mein, dein) and demonstrative determiners (dieser, jener)"
+
+  # Cases Section
+  - path: "/nominative-case"
+    educationalLevel: "A1"
+    topics: ["Nominative Case", "German Cases", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the nominative case (Nominativ) - the subject case in German"
+
+  - path: "/accusative-case"
+    educationalLevel: "A1-A2"
+    topics: ["Accusative Case", "German Cases", "Direct Object", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the accusative case (Akkusativ) for direct objects and accusative prepositions"
+
+  - path: "/dative-case"
+    educationalLevel: "A2"
+    topics: ["Dative Case", "German Cases", "Indirect Object", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the dative case (Dativ) for indirect objects and dative prepositions"
+
+  - path: "/genitive-case"
+    educationalLevel: "B1"
+    topics: ["Genitive Case", "German Cases", "Possession", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand the genitive case (Genitiv) for showing possession and genitive prepositions"
+
+  # Pronouns Section
+  - path: "/personal-pronouns"
+    educationalLevel: "A1"
+    topics: ["Personal Pronouns", "Pronouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn German personal pronouns (ich, du, er, sie, es, etc.) in all cases"
+
+  - path: "/possessive-pronouns"
+    educationalLevel: "A1-A2"
+    topics: ["Possessive Pronouns", "Pronouns", "Possession", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master possessive pronouns (meiner, deiner, seiner) and their declensions"
+
+  - path: "/demonstrative-pronouns"
+    educationalLevel: "A2"
+    topics: ["Demonstrative Pronouns", "Pronouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn demonstrative pronouns (dieser, jener, der, die, das) for pointing out specific things"
+
+  - path: "/reflexive-pronouns"
+    educationalLevel: "A2-B1"
+    topics: ["Reflexive Pronouns", "Pronouns", "Reflexive Verbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand reflexive pronouns (mich, dich, sich) in accusative and dative cases"
+
+  - path: "/negative-pronouns"
+    educationalLevel: "A2"
+    topics: ["Negative Pronouns", "Pronouns", "Negation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn negative pronouns (niemand, nichts, keiner) for expressing negation"
+
+  - path: "/indefinite-pronouns"
+    educationalLevel: "A2-B1"
+    topics: ["Indefinite Pronouns", "Pronouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master indefinite pronouns (jemand, etwas, man, alle) in German"
+
+  - path: "/interrogative-pronouns"
+    educationalLevel: "A1-A2"
+    topics: ["Interrogative Pronouns", "Question Words", "Pronouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn interrogative pronouns (wer, was, welcher) for asking questions"
+
+  - path: "/relative-pronouns"
+    educationalLevel: "B1"
+    topics: ["Relative Pronouns", "Relative Clauses", "Pronouns", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand relative pronouns (der, die, das, welcher) for forming relative clauses"
+
+  # Verbs Section
+  - path: "/auxiliary-verbs"
+    educationalLevel: "A1-A2"
+    topics: ["Auxiliary Verbs", "Haben Sein Werden", "Verbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the auxiliary verbs haben, sein, and werden in all tenses"
+
+  - path: "/weak-strong-and-mixed-verbs"
+    educationalLevel: "A2-B1"
+    topics: ["Weak Verbs", "Strong Verbs", "Mixed Verbs", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the differences between weak, strong, and mixed verbs in German"
+
+  - path: "/tenses-and-moods"
+    educationalLevel: "A2-B2"
+    topics: ["Verb Tenses", "Verb Moods", "Verbs", "Grammar"]
+    learningResourceType: "Guide"
+    description: "Overview of all German tenses and moods (indicative, subjunctive, imperative)"
+
+  - path: "/present-tense"
+    educationalLevel: "A1"
+    topics: ["Present Tense", "Präsens", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn present tense conjugation for regular and irregular verbs in German"
+
+  - path: "/perfect-tense"
+    educationalLevel: "A2"
+    topics: ["Perfect Tense", "Perfekt", "Past Tense", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the perfect tense (Perfekt) for talking about completed actions"
+
+  - path: "/modal-verbs"
+    educationalLevel: "A2"
+    topics: ["Modal Verbs", "Können Müssen Wollen", "Verbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn German modal verbs (können, müssen, wollen, dürfen, sollen, mögen)"
+
+  - path: "/simple-past-tense-or-preterite"
+    educationalLevel: "A2-B1"
+    topics: ["Simple Past", "Preterite", "Präteritum", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand the simple past tense (Präteritum) for narrative past in German"
+
+  - path: "/future-tense"
+    educationalLevel: "A2-B1"
+    topics: ["Future Tense", "Futur I", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to express future actions using Futur I in German"
+
+  - path: "/future-perfect-tense"
+    educationalLevel: "B1-B2"
+    topics: ["Future Perfect", "Futur II", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the future perfect tense (Futur II) for actions completed in the future"
+
+  - path: "/plusperfect-tense"
+    educationalLevel: "B1"
+    topics: ["Pluperfect Tense", "Plusquamperfekt", "Past Perfect", "Verb Conjugation", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the pluperfect tense (Plusquamperfekt) for actions before another past action"
+
+  - path: "/dative-verbs"
+    educationalLevel: "A2-B1"
+    topics: ["Dative Verbs", "Verbs with Dative", "Dative Case", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master verbs that require dative case objects (helfen, danken, gefallen, etc.)"
+
+  - path: "/separable-and-inseparable-verbs"
+    educationalLevel: "A2-B1"
+    topics: ["Separable Verbs", "Inseparable Verbs", "Verb Prefixes", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn separable and inseparable prefix verbs (aufstehen, verstehen, etc.)"
+
+  - path: "/imperative"
+    educationalLevel: "A2"
+    topics: ["Imperative Mood", "Commands", "Verb Moods", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to form commands and requests using the imperative mood"
+
+  - path: "/subjunctive-ii"
+    educationalLevel: "B1-B2"
+    topics: ["Subjunctive II", "Konjunktiv II", "Conditional", "Verb Moods", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master Subjunctive II (Konjunktiv II) for hypothetical situations and polite requests"
+
+  - path: "/passive-voice"
+    educationalLevel: "B1-B2"
+    topics: ["Passive Voice", "Passiv", "Verb Forms", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to form and use passive voice (Passiv) in German"
+
+  - path: "/reflexive-verbs"
+    educationalLevel: "A2-B1"
+    topics: ["Reflexive Verbs", "Reflexive Pronouns", "Verbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand reflexive verbs (sich waschen, sich freuen) and their usage"
+
+  - path: "/subjunctive-i"
+    educationalLevel: "B2-C1"
+    topics: ["Subjunctive I", "Konjunktiv I", "Indirect Speech", "Verb Moods", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master Subjunctive I (Konjunktiv I) for indirect speech and reported statements"
+
+  # Info Pages
+  - path: "/about"
+    educationalLevel: "A1-C2"
+    topics: ["About", "Information"]
+    learningResourceType: "WebPage"
+    description: "About Learn German Grammar website"
+
+  - path: "/contact"
+    educationalLevel: "A1-C2"
+    topics: ["Contact", "Information"]
+    learningResourceType: "WebPage"
+    description: "Contact information for LearnGermanGrammar.com"
