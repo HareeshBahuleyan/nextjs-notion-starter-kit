@@ -84,3 +84,13 @@ sections:
         id: "subjunctive-ii"
       - name: "Passive Voice"
         id: "passive-voice"
+  - name: "Adjectives"
+    pages:
+      - name: "Introduction to Adjectives"
+        id: "introduction-to-adjectives"
+      - name: "Adjective Declension Before Nouns"
+        id: "adjective-declension-before-nouns"
+      - name: "Comparative and Superlative"
+        id: "comparative-and-superlative"
+      - name: "Advanced Adjective Topics"
+        id: "advanced-adjective-topics"
