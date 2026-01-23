@@ -138,6 +138,31 @@ pages:
     learningResourceType: "Lesson"
     description: "Understand relative pronouns (der, die, das, welcher) for forming relative clauses"
 
+  # Adjectives Section
+  - path: "/introduction-to-adjectives"
+    educationalLevel: "A1-A2"
+    topics: ["Adjectives", "German Adjectives", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the two ways to use adjectives in German: after nouns (no endings) and before nouns (with endings)"
+
+  - path: "/adjective-declension-before-nouns"
+    educationalLevel: "A2-B1"
+    topics: ["Adjective Declension", "German Adjectives", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the three declension types: weak (with definite articles), mixed (with indefinite articles), and strong (without articles)"
+
+  - path: "/comparative-and-superlative"
+    educationalLevel: "A2-B1"
+    topics: ["Comparative", "Superlative", "German Adjectives", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to form comparative (-er) and superlative (-sten) forms of adjectives including umlaut changes and irregular forms"
+
+  - path: "/advanced-adjective-topics"
+    educationalLevel: "B1-B2"
+    topics: ["Adjectival Nouns", "Adjective Prepositions", "German Adjectives", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Advanced topics including substantivierte Adjectives, adjectives with fixed prepositions, and special adjective forms"
+
   # Verbs Section
   - path: "/auxiliary-verbs"
     educationalLevel: "A1-A2"
