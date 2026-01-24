@@ -163,6 +163,43 @@ pages:
     learningResourceType: "Lesson"
     description: "Advanced topics including substantivierte Adjectives, adjectives with fixed prepositions, and special adjective forms"
 
+  # Prepositions Section
+  - path: "/accusative-prepositions"
+    educationalLevel: "A1-A2"
+    topics: ["Accusative Prepositions", "German Prepositions", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn accusative prepositions (durch, für, gegen, ohne, um, bis, entlang) and when to use the Akkusativ case"
+
+  - path: "/dative-prepositions"
+    educationalLevel: "A1-A2"
+    topics: ["Dative Prepositions", "German Prepositions", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master dative prepositions (aus, außer, bei, mit, nach, seit, von, zu, gegenüber) and when to use the Dativ case"
+
+  - path: "/two-way-prepositions"
+    educationalLevel: "A2-B1"
+    topics: ["Two Way Prepositions", "Wechselpräpositionen", "German Prepositions", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand two-way prepositions (an, auf, in, über, unter, vor, hinter, neben, zwischen) that take either accusative or dative depending on context"
+
+  - path: "/genitive-prepositions"
+    educationalLevel: "A2-B1"
+    topics: ["Genitive Prepositions", "German Prepositions", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn genitive prepositions (wegen, während, trotz, statt, außerhalb, innerhalb) and when to use the Genitiv case"
+
+  - path: "/prepositions-of-time-place-and-manner"
+    educationalLevel: "B1-B2"
+    topics: ["Time Prepositions", "Place Prepositions", "Manner Prepositions", "German Prepositions", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master prepositions categorized by function: temporal (when), local (where), and modal (how)"
+
+  - path: "/verbs-with-prepositions"
+    educationalLevel: "B1-B2"
+    topics: ["Verb Prepositions", "German Prepositions", "Verbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn German verbs that require specific prepositions (an, auf, über, für, um, mit, von, vor, nach, zu)"
+
   # Verbs Section
   - path: "/auxiliary-verbs"
     educationalLevel: "A1-A2"
