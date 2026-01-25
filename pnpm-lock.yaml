@@ -17,9 +17,6 @@ importers:
       '@keyvhq/redis':
         specifier: ^2.1.8
         version: 2.1.8
-      '@react-icons/all-files':
-        specifier: ^4.1.0
-        version: 4.1.0(react@19.2.3)
       '@vercel/analytics':
         specifier: ^1.5.0
         version: 1.5.0(next@15.5.9(@babel/core@7.28.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
@@ -647,11 +644,6 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
-
-  '@react-icons/all-files@4.1.0':
-    resolution: {integrity: sha512-hxBI2UOuVaI3O/BhQfhtb4kcGn9ft12RWAFVMUeNjqqhLsHvFtzIkFaptBJpFDANTKoDfdVoHTKZDlwKCACbMQ==}
-    peerDependencies:
-      react: '*'
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -3120,10 +3112,6 @@ snapshots:
     optional: true
 
   '@polka/url@1.0.0-next.29': {}
-
-  '@react-icons/all-files@4.1.0(react@19.2.3)':
-    dependencies:
-      react: 19.2.3
 
   '@rtsao/scc@1.1.0': {}
 
