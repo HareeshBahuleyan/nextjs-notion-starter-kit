@@ -200,6 +200,55 @@ pages:
     learningResourceType: "Lesson"
     description: "Learn German verbs that require specific prepositions (an, auf, über, für, um, mit, von, vor, nach, zu)"
 
+  # Sentence Structure Section
+  - path: "/main-clause-and-subordinating-clause"
+    educationalLevel: "A1-A2"
+    topics: ["Main Clause", "Subordinate Clause", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the difference between main clauses (Hauptsätze) and subordinate clauses (Nebensätze) with verb position rules"
+
+  - path: "/coordinating-conjunctions"
+    educationalLevel: "A1-A2"
+    topics: ["Coordinating Conjunctions", "Conjunctions", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master coordinating conjunctions (und, aber, oder, sondern, denn) that connect main clauses without changing word order"
+
+  - path: "/subordinating-conjunctions"
+    educationalLevel: "A2-B1"
+    topics: ["Subordinating Conjunctions", "Conjunctions", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn subordinating conjunctions (weil, dass, wenn, als, obwohl) that send the verb to the end of the clause"
+
+  - path: "/forming-questions"
+    educationalLevel: "A1"
+    topics: ["Questions", "W-Questions", "Yes No Questions", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to form yes/no questions and W-questions (who, what, where, when, why, how) in German"
+
+  - path: "/forming-negative-sentences"
+    educationalLevel: "A1-A2"
+    topics: ["Negation", "Nicht", "Kein", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master forming negative sentences using nicht and kein with correct word position"
+
+  - path: "/word-order"
+    educationalLevel: "A2-B1"
+    topics: ["Word Order", "Sentence Structure", "TeKaMoLo", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn German word order rules including dative/accusative object order and TeKaMoLo (temporal, causal, modal, local)"
+
+  - path: "/relative-clauses"
+    educationalLevel: "B1"
+    topics: ["Relative Clauses", "Relative Pronouns", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand relative clauses with relative pronouns (der, die, das, was, wo) and their word order"
+
+  - path: "/infinite-clauses"
+    educationalLevel: "B1-B2"
+    topics: ["Infinitive Clauses", "zu Infinitive", "Sentence Structure", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn infinitive clauses with zu (um...zu, ohne...zu, anstatt...zu) and when to use them"
+
   # Verbs Section
   - path: "/auxiliary-verbs"
     educationalLevel: "A1-A2"
@@ -302,6 +351,49 @@ pages:
     topics: ["Subjunctive I", "Konjunktiv I", "Indirect Speech", "Verb Moods", "Grammar"]
     learningResourceType: "Lesson"
     description: "Master Subjunctive I (Konjunktiv I) for indirect speech and reported statements"
+
+  # Other Topics Section
+  - path: "/use-of-es"
+    educationalLevel: "A2-B1"
+    topics: ["Es", "Impersonal Es", "German Grammar", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn the various functions of 'es' as personal pronoun, impersonal subject, placeholder, and anticipatory correlate"
+
+  - path: "/da-compounds-and-wo-compounds"
+    educationalLevel: "A2-B1"
+    topics: ["Da-Compounds", "Wo-Compounds", "Pronominal Adverbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master da-compounds (darauf, damit) and wo-compounds (worauf, womit) for referring to things with prepositions"
+
+  - path: "/adverbs"
+    educationalLevel: "A1-A2"
+    topics: ["Adverbs", "Adverbs of Time", "Adverbs of Place", "Adverbs of Manner", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn German adverbs including time, place, manner, and frequency adverbs, plus their position in sentences"
+
+  - path: "/correlative-pairs"
+    educationalLevel: "A2-B1"
+    topics: ["Correlative Pairs", "Conjunctions", "German Grammar", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master correlative conjunction pairs: entweder...oder, weder...noch, sowohl...als auch, nicht nur...sondern auch"
+
+  - path: "/modal-particles"
+    educationalLevel: "B1-B2"
+    topics: ["Modal Particles", "Particles", "German Grammar", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Understand modal particles (doch, ja, mal, denn, schon, aber) that add nuance and emotion to sentences"
+
+  - path: "/nominalization"
+    educationalLevel: "B1-B2"
+    topics: ["Nominalization", "Word Formation", "German Grammar", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Learn to turn verbs, adjectives, and participles into nouns with suffixes like -ung, -heit, -keit"
+
+  - path: "/lassen-infinitive"
+    educationalLevel: "B1-B2"
+    topics: ["Lassen", "Causative", "Verbs", "Grammar"]
+    learningResourceType: "Lesson"
+    description: "Master the verb 'lassen' with infinitive: to let/allow, to have something done, and passive alternatives"
 
   # Info Pages
   - path: "/about"
