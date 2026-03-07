@@ -124,8 +124,8 @@ sections:
         id: "word-order"
       - name: "Relative Clauses"
         id: "relative-clauses"
-      - name: "Infinite Clauses"
-        id: "infinite-clauses"
+      - name: "Infinitive Clauses"
+        id: "infinitive-clauses"
 
   - name: "Other Topics"
     pages:
