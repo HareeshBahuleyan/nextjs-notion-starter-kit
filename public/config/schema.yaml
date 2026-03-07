@@ -243,7 +243,7 @@ pages:
     learningResourceType: "Lesson"
     description: "Understand relative clauses with relative pronouns (der, die, das, was, wo) and their word order"
 
-  - path: "/infinite-clauses"
+  - path: "/infinitive-clauses"
     educationalLevel: "B1-B2"
     topics: ["Infinitive Clauses", "zu Infinitive", "Sentence Structure", "Grammar"]
     learningResourceType: "Lesson"
