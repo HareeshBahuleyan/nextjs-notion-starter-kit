@@ -47,7 +47,9 @@ async function getPageWithRetry(
         String(err?.message).includes('429') ||
         String(err?.message).includes('503')
       if (is429or503 && attempt < retries) {
-        const wait = delayMs * 2 ** attempt
+        // Full jitter: random value in [0, base * 2^attempt] to avoid thundering herd
+        const cap = delayMs * 2 ** attempt
+        const wait = Math.floor(Math.random() * cap)
         console.warn(
           `Notion rate limit (sitemap) for page ${pageId}, retrying in ${wait}ms (attempt ${attempt + 1}/${retries})`
         )
