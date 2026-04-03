@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  notion-types: 7.10.0
+  notion-utils: 7.10.0
+  notion-client: 7.10.0
+
 importers:
 
   .:
@@ -39,14 +44,14 @@ importers:
         specifier: ^15.5.9
         version: 15.5.9(@babel/core@7.28.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-client:
-        specifier: ^7.7.0
-        version: 7.7.3
+        specifier: 7.10.0
+        version: 7.10.0
       notion-types:
-        specifier: ^7.7.0
-        version: 7.7.3
+        specifier: 7.10.0
+        version: 7.10.0
       notion-utils:
-        specifier: ^7.7.0
-        version: 7.7.3
+        specifier: 7.10.0
+        version: 7.10.0
       p-limit:
         specifier: ^7.3.0
         version: 7.3.0
@@ -75,7 +80,7 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.3)
       react-notion-x:
-        specifier: ^7.8.2
+        specifier: ^7.10.0
         version: 7.10.0(@babel/runtime@7.28.4)(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react-tweet:
         specifier: ^3.2.2
@@ -1944,24 +1949,16 @@ packages:
     resolution: {integrity: sha512-X06Mfd/5aKsRHc0O0J5CUedwnPmnDtLF2+nq+KN9KSDlJHkPuh0JUviWjEWMe0SW/9TDdSLVPuk7L5gGTIA1/w==}
     engines: {node: '>=14.16'}
 
-  notion-client@7.7.3:
-    resolution: {integrity: sha512-rRRghrRDMVrUEEn1lyiyf3eGKCFAqVKvbkVau1X/36cUL7OhbwlP3XLSYVH5PCNJIRRIneB3oWTODOJvTPlppQ==}
+  notion-client@7.10.0:
+    resolution: {integrity: sha512-Rb4/nR4vIRwIExvKiVhZKJEpGoE0IRFlHMKbs0tcZcecZaUVRzVAu7PHuaHC5ivSds26z497dxXYF3mnMrMt7g==}
     engines: {node: '>=18'}
 
   notion-types@7.10.0:
     resolution: {integrity: sha512-t57RdnGnup7NcMGJkrlshe3gXaFYOj565NL1Q1l/MrZZ/K2xbHO06PtBXDEFTFYjvxQagU0NzKzaSNKocU9e4Q==}
     engines: {node: '>=18'}
 
-  notion-types@7.7.3:
-    resolution: {integrity: sha512-6HCcLi9zEcVJsvVUvCZ2f5o4ANtKsRfQuUcU74Trsv6C5raug8ERtmeM2s7YJfuLuP74YVDDSIXugO+XkUBFxg==}
-    engines: {node: '>=18'}
-
   notion-utils@7.10.0:
     resolution: {integrity: sha512-Z/L+xOzVWM5wBHOqLu3PwCzA/11yzVExMpR8FUcwHbS60DDULSgZgipXQBzKOlbQMnB+04BOkSGDNan+AxfxmA==}
-    engines: {node: '>=18'}
-
-  notion-utils@7.7.3:
-    resolution: {integrity: sha512-MpOsUWdJJXKKc01zIYv90cxZZf7zL4dDSTssdqRFlDJsgGFFrD9uoKr0giOrMPiIoGwLka4TNeTORRDMYRZmoQ==}
     engines: {node: '>=18'}
 
   npm-normalize-package-bin@4.0.0:
@@ -4644,16 +4641,14 @@ snapshots:
 
   normalize-url@8.1.0: {}
 
-  notion-client@7.7.3:
+  notion-client@7.10.0:
     dependencies:
-      notion-types: 7.7.3
-      notion-utils: 7.7.3
+      notion-types: 7.10.0
+      notion-utils: 7.10.0
       ofetch: 1.5.1
       p-map: 7.0.3
 
   notion-types@7.10.0: {}
-
-  notion-types@7.7.3: {}
 
   notion-utils@7.10.0:
     dependencies:
@@ -4661,14 +4656,6 @@ snapshots:
       memoize: 10.1.0
       normalize-url: 8.1.0
       notion-types: 7.10.0
-      p-queue: 8.1.1
-
-  notion-utils@7.7.3:
-    dependencies:
-      is-url-superb: 6.1.0
-      memoize: 10.1.0
-      normalize-url: 8.1.0
-      notion-types: 7.7.3
       p-queue: 8.1.1
 
   npm-normalize-package-bin@4.0.0: {}
