@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-notion-x/build/third-party/collection.js b/node_modules/react-notion-x/build/third-party/collection.js
+index 081e910..9c49443 100644
+--- a/node_modules/react-notion-x/build/third-party/collection.js
++++ b/node_modules/react-notion-x/build/third-party/collection.js
+@@ -4738,13 +4738,13 @@ function evalFunctionFormula(formula, ctx2) {
+       const value = evalFormula(args[0], ctx2);
+       const regex = evalFormula(args[1], ctx2);
+       const replacement = evalFormula(args[2], ctx2);
+-      return value.replace(new RegExp(regex), replacement);
++      return (value ?? "").replace(new RegExp(regex), replacement);
+     }
+     case "replaceAll": {
+       const value = evalFormula(args[0], ctx2);
+       const regex = evalFormula(args[1], ctx2);
+       const replacement = evalFormula(args[2], ctx2);
+-      return value.replaceAll(new RegExp(regex, "g"), replacement);
++      return (value ?? "").replaceAll(new RegExp(regex, "g"), replacement);
+     }
+     case "slice": {
+       const value = evalFormula(args[0], ctx2);
