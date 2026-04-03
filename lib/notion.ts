@@ -4,6 +4,7 @@ import {
   type SearchResults
 } from 'notion-types'
 import { mergeRecordMaps } from 'notion-utils'
+import pLimit from 'p-limit'
 import pMap from 'p-map'
 import pMemoize from 'p-memoize'
 
@@ -16,6 +17,40 @@ import { getTweetsMap } from './get-tweets'
 import { notion } from './notion-api'
 import { getPreviewImageMap } from './preview-images'
 
+// Limit concurrent Notion API calls to 3 to stay safely under the 3 req/sec limit
+const notionConcurrencyLimit = pLimit(3)
+
+async function getPageWithRetry(
+  pageId: string,
+  retries = 5,
+  delayMs = 1000
+): Promise<ExtendedRecordMap> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await notion.getPage(pageId)
+    } catch (err: any) {
+      const is429or503 =
+        err?.status === 429 ||
+        err?.status === 503 ||
+        err?.statusCode === 429 ||
+        err?.statusCode === 503 ||
+        String(err?.message).includes('429') ||
+        String(err?.message).includes('503')
+      if (is429or503 && attempt < retries) {
+        const wait = delayMs * 2 ** attempt
+        console.warn(
+          `Notion rate limit hit for page ${pageId}, retrying in ${wait}ms (attempt ${attempt + 1}/${retries})`
+        )
+        await new Promise((resolve) => setTimeout(resolve, wait))
+      } else {
+        throw err
+      }
+    }
+  }
+  // unreachable, but satisfies TypeScript
+  throw new Error(`Failed to fetch page ${pageId} after ${retries} retries`)
+}
+
 const getNavigationLinkPages = pMemoize(
   async (): Promise<ExtendedRecordMap[]> => {
     const navigationLinkPageIds = (navigationLinks || [])
@@ -26,12 +61,14 @@ const getNavigationLinkPages = pMemoize(
       return pMap(
         navigationLinkPageIds,
         async (navigationLinkPageId) =>
-          notion.getPage(navigationLinkPageId, {
-            chunkLimit: 1,
-            fetchMissingBlocks: false,
-            fetchCollections: false,
-            signFileUrls: false
-          }),
+          notionConcurrencyLimit(() =>
+            notion.getPage(navigationLinkPageId, {
+              chunkLimit: 1,
+              fetchMissingBlocks: false,
+              fetchCollections: false,
+              signFileUrls: false
+            })
+          ),
         {
           concurrency: 4
         }
@@ -43,7 +80,7 @@ const getNavigationLinkPages = pMemoize(
 )
 
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
-  let recordMap = await notion.getPage(pageId)
+  let recordMap = await notionConcurrencyLimit(() => getPageWithRetry(pageId))
 
   if (navigationStyle !== 'default') {
     // ensure that any pages linked to in the custom navigation header have

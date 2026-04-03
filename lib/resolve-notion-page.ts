@@ -1,4 +1,4 @@
-import { type ExtendedRecordMap } from 'notion-types'
+import { type Block, type ExtendedRecordMap } from 'notion-types'
 import { parsePageId } from 'notion-utils'
 
 import type { PageProps } from './types'
@@ -93,12 +93,12 @@ export async function resolveNotionPage(
   }
 
   // Generate schema markup for the page
-  let schemaJson: string | undefined
+  let schemaJson: string | null = null
   try {
     const keys = Object.keys(recordMap?.block || {})
     if (keys.length > 0 && recordMap?.block) {
       const firstKey = keys[0] as string
-      const block = recordMap.block[firstKey]?.value
+  const block = recordMap.block[firstKey]?.value as Block | undefined
       const isBlogPost =
         block?.type === 'page' && block?.parent_table === 'collection'
 

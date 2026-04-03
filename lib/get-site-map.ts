@@ -1,4 +1,6 @@
+import { type Block } from 'notion-types'
 import { getAllPagesInSpace, getPageProperty, uuidToId } from 'notion-utils'
+import pLimit from 'p-limit'
 import pMemoize from 'p-memoize'
 
 import type * as types from './types'
@@ -25,14 +27,41 @@ const getAllPages = pMemoize(getAllPagesImpl, {
   cacheKey: (...args) => JSON.stringify(args)
 })
 
+const siteMapConcurrencyLimit = pLimit(3)
+
+async function getPageWithRetry(
+  pageId: string,
+  opts?: any,
+  retries = 5,
+  delayMs = 1000
+): Promise<any> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await notion.getPage(pageId, opts)
+    } catch (err: any) {
+      const is429or503 =
+        err?.status === 429 ||
+        err?.status === 503 ||
+        err?.statusCode === 429 ||
+        err?.statusCode === 503 ||
+        String(err?.message).includes('429') ||
+        String(err?.message).includes('503')
+      if (is429or503 && attempt < retries) {
+        const wait = delayMs * 2 ** attempt
+        console.warn(
+          `Notion rate limit (sitemap) for page ${pageId}, retrying in ${wait}ms (attempt ${attempt + 1}/${retries})`
+        )
+        await new Promise((resolve) => setTimeout(resolve, wait))
+      } else {
+        throw err
+      }
+    }
+  }
+}
+
 const getPage = async (pageId: string, opts?: any) => {
   console.log('\nnotion getPage', uuidToId(pageId))
-  return notion.getPage(pageId, {
-    kyOptions: {
-      timeout: 8000
-    },
-    ...opts
-  })
+  return siteMapConcurrencyLimit(() => getPageWithRetry(pageId, opts))
 }
 
 async function getAllPagesImpl(
@@ -60,7 +89,7 @@ async function getAllPagesImpl(
         throw new Error(`Error loading page "${pageId}"`)
       }
 
-      const block = recordMap.block[pageId]?.value
+      const block = recordMap.block[pageId]?.value as Block | undefined
       if (
         !(getPageProperty<boolean | null>('Public', block!, recordMap) ?? true)
       ) {
