@@ -17,17 +17,21 @@ import { getTweetsMap } from './get-tweets'
 import { notion } from './notion-api'
 import { getPreviewImageMap } from './preview-images'
 
-// Limit concurrent Notion API calls to 3 to stay safely under the 3 req/sec limit
-const notionConcurrencyLimit = pLimit(3)
+// Single concurrent Notion API call at a time + 500ms min gap = max ~2 pages/sec
+const notionConcurrencyLimit = pLimit(1)
+const MIN_REQUEST_DELAY_MS = 500
 
 async function getPageWithRetry(
   pageId: string,
   retries = 7,
-  delayMs = 2000
+  baseDelayMs = 5000
 ): Promise<ExtendedRecordMap> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      return await notion.getPage(pageId)
+      const result = await notion.getPage(pageId)
+      // Minimum delay between requests to stay well under 3 req/sec
+      await new Promise((resolve) => setTimeout(resolve, MIN_REQUEST_DELAY_MS))
+      return result
     } catch (err: any) {
       const is429or503 =
         err?.status === 429 ||
@@ -37,9 +41,9 @@ async function getPageWithRetry(
         String(err?.message).includes('429') ||
         String(err?.message).includes('503')
       if (is429or503 && attempt < retries) {
-        // Full jitter: random value in [0, base * 2^attempt] to avoid thundering herd
-        const cap = delayMs * 2 ** attempt
-        const wait = Math.floor(Math.random() * cap)
+        // Full jitter: random in [baseDelay, baseDelay * 2^attempt] to avoid thundering herd
+        const cap = baseDelayMs * 2 ** attempt
+        const wait = baseDelayMs + Math.floor(Math.random() * (cap - baseDelayMs))
         console.warn(
           `Notion rate limit hit for page ${pageId}, retrying in ${wait}ms (attempt ${attempt + 1}/${retries})`
         )
@@ -72,7 +76,7 @@ const getNavigationLinkPages = pMemoize(
             })
           ),
         {
-          concurrency: 4
+          concurrency: 1
         }
       )
     }

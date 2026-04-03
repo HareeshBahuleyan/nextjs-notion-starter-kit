@@ -27,17 +27,23 @@ const getAllPages = pMemoize(getAllPagesImpl, {
   cacheKey: (...args) => JSON.stringify(args)
 })
 
-const siteMapConcurrencyLimit = pLimit(3)
+const siteMapConcurrencyLimit = pLimit(1)
+const SITEMAP_MIN_REQUEST_DELAY_MS = 500
 
 async function getPageWithRetry(
   pageId: string,
   opts?: any,
   retries = 7,
-  delayMs = 2000
+  baseDelayMs = 5000
 ): Promise<any> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      return await notion.getPage(pageId, opts)
+      const result = await notion.getPage(pageId, opts)
+      // Minimum delay between requests to stay well under 3 req/sec
+      await new Promise((resolve) =>
+        setTimeout(resolve, SITEMAP_MIN_REQUEST_DELAY_MS)
+      )
+      return result
     } catch (err: any) {
       const is429or503 =
         err?.status === 429 ||
@@ -47,9 +53,10 @@ async function getPageWithRetry(
         String(err?.message).includes('429') ||
         String(err?.message).includes('503')
       if (is429or503 && attempt < retries) {
-        // Full jitter: random value in [0, base * 2^attempt] to avoid thundering herd
-        const cap = delayMs * 2 ** attempt
-        const wait = Math.floor(Math.random() * cap)
+        // Full jitter: random in [baseDelay, baseDelay * 2^attempt] to avoid thundering herd
+        const cap = baseDelayMs * 2 ** attempt
+        const wait =
+          baseDelayMs + Math.floor(Math.random() * (cap - baseDelayMs))
         console.warn(
           `Notion rate limit (sitemap) for page ${pageId}, retrying in ${wait}ms (attempt ${attempt + 1}/${retries})`
         )
@@ -80,6 +87,7 @@ async function getAllPagesImpl(
     rootNotionSpaceId,
     getPage,
     {
+      concurrency: 1,
       maxDepth
     }
   )
