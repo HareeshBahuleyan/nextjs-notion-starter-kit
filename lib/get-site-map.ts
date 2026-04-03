@@ -32,8 +32,8 @@ const siteMapConcurrencyLimit = pLimit(3)
 async function getPageWithRetry(
   pageId: string,
   opts?: any,
-  retries = 5,
-  delayMs = 1000
+  retries = 7,
+  delayMs = 2000
 ): Promise<any> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {

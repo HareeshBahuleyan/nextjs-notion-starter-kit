@@ -22,8 +22,8 @@ const notionConcurrencyLimit = pLimit(3)
 
 async function getPageWithRetry(
   pageId: string,
-  retries = 5,
-  delayMs = 1000
+  retries = 7,
+  delayMs = 2000
 ): Promise<ExtendedRecordMap> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
