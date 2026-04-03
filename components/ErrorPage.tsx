@@ -1,8 +1,20 @@
+import * as React from 'react'
+import { posthog } from 'posthog-js'
+
+import { posthogId } from '@/lib/config'
+
 import { PageHead } from './PageHead'
 import styles from './styles.module.css'
 
 export function ErrorPage({ statusCode }: { statusCode: number }) {
   const title = 'Error'
+
+  React.useEffect(() => {
+    if (posthogId) {
+      posthog.capture('page_error', { statusCode })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>

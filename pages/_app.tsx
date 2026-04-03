@@ -21,6 +21,7 @@ import Script from 'next/script'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
 
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { bootstrap } from '@/lib/bootstrap-client'
 import {
   fathomConfig,
@@ -83,7 +84,9 @@ export default function App({ Component, pageProps }: AppProps) {
           </Script>
         </>
       )}
-      <Component {...pageProps} />
+      <ErrorBoundary key={router.asPath}>
+        <Component {...pageProps} />
+      </ErrorBoundary>
       <Analytics />
     </>
   )
