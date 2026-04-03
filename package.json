@@ -12,7 +12,7 @@
   },
   "type": "module",
   "scripts": {
-    "postinstall": "patch-package",
+    "postinstall": "node scripts/patch-react-notion-x.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -73,7 +73,6 @@
     "eslint": "^9.35.0",
     "js-yaml": "^4.1.0",
     "npm-run-all2": "^8.0.4",
-    "patch-package": "^8.0.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2"
   },
