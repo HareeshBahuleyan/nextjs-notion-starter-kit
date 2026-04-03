@@ -16,7 +16,7 @@ export interface PageProps {
   recordMap?: ExtendedRecordMap
   pageId?: string
   error?: PageError
-  schemaJson?: string
+  schemaJson?: string | null
 }
 
 export interface ExtendedTweetRecordMap extends ExtendedRecordMap {

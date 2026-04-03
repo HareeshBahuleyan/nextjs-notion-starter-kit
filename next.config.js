@@ -10,6 +10,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 export default withBundleAnalyzer({
   staticPageGenerationTimeout: 300,
+  // Limit static generation workers to reduce concurrent Notion API calls
+  // and avoid 429 rate limit errors during build
+  experimental: {
+    cpus: 2
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'www.notion.so' },
