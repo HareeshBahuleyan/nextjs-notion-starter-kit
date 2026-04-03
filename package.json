@@ -44,7 +44,6 @@
     "notion-client": "^7.7.0",
     "notion-types": "^7.7.0",
     "notion-utils": "^7.7.0",
-    "p-limit": "^7.3.0",
     "p-map": "^7.0.3",
     "p-memoize": "^7.1.1",
     "posthog-js": "^1.249.4",
