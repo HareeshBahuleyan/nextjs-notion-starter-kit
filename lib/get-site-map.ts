@@ -8,10 +8,18 @@ import * as config from './config'
 import { includeNotionIdInUrls } from './config'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { notion } from './notion-api'
+import { getSiteMapFromBlob } from './notion-blob'
 
 const uuid = !!includeNotionIdInUrls
 
 export async function getSiteMap(): Promise<types.SiteMap> {
+  // Check Blob cache first (populated daily by cron job)
+  const cached = await getSiteMapFromBlob()
+  if (cached) {
+    return cached
+  }
+
+  // Fall back to fetching from Notion
   const partialSiteMap = await getAllPages(
     config.rootNotionPageId,
     config.rootNotionSpaceId ?? undefined

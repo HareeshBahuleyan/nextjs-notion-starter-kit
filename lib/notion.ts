@@ -15,6 +15,7 @@ import {
 } from './config'
 import { getTweetsMap } from './get-tweets'
 import { notion } from './notion-api'
+import { getPageFromBlob } from './notion-blob'
 import { getPreviewImageMap } from './preview-images'
 
 // Single concurrent Notion API call at a time + 500ms min gap = max ~2 pages/sec
@@ -86,6 +87,13 @@ const getNavigationLinkPages = pMemoize(
 )
 
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
+  // Check Blob cache first (populated daily by cron job)
+  const cached = await getPageFromBlob(pageId)
+  if (cached) {
+    return cached
+  }
+
+  // Fall back to live Notion API
   let recordMap = await notionConcurrencyLimit(() => getPageWithRetry(pageId))
 
   if (navigationStyle !== 'default') {
