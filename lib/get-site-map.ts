@@ -15,7 +15,9 @@ const uuid = !!includeNotionIdInUrls
 export async function getSiteMap(): Promise<types.SiteMap> {
   // Check Blob cache first (populated daily by cron job)
   const cached = await getSiteMapFromBlob()
-  if (cached) {
+  // Only use the cache if canonicalPageMap is populated — guards against
+  // a malformed or incomplete cache that would break slug resolution
+  if (cached && Object.keys(cached.canonicalPageMap ?? {}).length > 0) {
     return cached
   }
 

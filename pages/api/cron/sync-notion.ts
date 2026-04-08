@@ -1,15 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { type ExtendedRecordMap } from 'notion-types'
-import { getAllPagesInSpace } from 'notion-utils'
+import { type Block, type ExtendedRecordMap } from 'notion-types'
+import { getAllPagesInSpace, getPageProperty } from 'notion-utils'
 import pLimit from 'p-limit'
 
 import type { SiteMap } from '@/lib/types'
 import {
+  includeNotionIdInUrls,
   isPreviewImageSupportEnabled,
   rootNotionPageId,
   rootNotionSpaceId,
   site
 } from '@/lib/config'
+import { getCanonicalPageId } from '@/lib/get-canonical-page-id'
 import { getTweetsMap } from '@/lib/get-tweets'
 import { notion } from '@/lib/notion-api'
 import { storePageInBlob, storeSiteMapInBlob } from '@/lib/notion-blob'
@@ -20,6 +22,7 @@ export const config = { maxDuration: 300 }
 
 const MIN_DELAY_MS = 500
 const limit = pLimit(1)
+const uuid = !!includeNotionIdInUrls
 
 async function fetchPageWithRetry(
   pageId: string,
@@ -66,7 +69,12 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  // Fail closed: require CRON_SECRET in all environments except local dev
   const cronSecret = process.env.CRON_SECRET
+  const isDev = process.env.NODE_ENV === 'development'
+  if (!cronSecret && !isDev) {
+    return res.status(500).json({ error: 'CRON_SECRET env var is not set' })
+  }
   if (cronSecret) {
     const authHeader = req.headers.authorization
     if (authHeader !== `Bearer ${cronSecret}`) {
@@ -88,10 +96,31 @@ export default async function handler(
       { concurrency: 1, maxDepth: 1 }
     )
 
+    // Build a real canonicalPageMap — same logic as lib/get-site-map.ts
+    const canonicalPageMap = Object.keys(pageMap).reduce(
+      (map: Record<string, string>, pageId: string) => {
+        const recordMap = pageMap[pageId]
+        if (!recordMap) return map
+
+        const block = recordMap.block[pageId]?.value as Block | undefined
+        if (
+          !(getPageProperty<boolean | null>('Public', block!, recordMap) ?? true)
+        ) {
+          return map
+        }
+
+        const canonicalPageId = getCanonicalPageId(pageId, recordMap, { uuid })
+        if (!canonicalPageId || map[canonicalPageId]) return map
+
+        return { ...map, [canonicalPageId]: pageId }
+      },
+      {}
+    )
+
     const siteMap: SiteMap = {
       site,
       pageMap,
-      canonicalPageMap: {}
+      canonicalPageMap
     }
 
     await storeSiteMapInBlob(siteMap)
@@ -125,7 +154,8 @@ export default async function handler(
       ok: true,
       synced: syncedPageIds.length,
       failed: failedPageIds.length,
-      failedPageIds: failedPageErrors
+      failedPageIds,
+      failedPageErrors
     })
   } catch (err: any) {
     console.error('[sync-notion] fatal error:', err?.message)

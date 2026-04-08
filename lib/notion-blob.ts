@@ -1,5 +1,5 @@
 import type { ExtendedRecordMap } from 'notion-types'
-import { list, put } from '@vercel/blob'
+import { get, put } from '@vercel/blob'
 
 import type { SiteMap } from './types'
 
@@ -16,12 +16,11 @@ async function readBlob<T>(key: string): Promise<T | null> {
     return null
   }
   try {
-    const { blobs } = await list({ prefix: key })
-    const blob = blobs.find((b) => b.pathname === key)
-    if (!blob) return null
-    const res = await fetch(blob.url)
-    if (!res.ok) return null
-    return res.json() as Promise<T>
+    // Use get() with a single authenticated request — no list() round-trip
+    const result = await get(key, { access: 'private' })
+    if (!result) return null
+    const text = await new Response(result.stream).text()
+    return JSON.parse(text) as T
   } catch (err: any) {
     console.warn(`[notion-blob] read error for "${key}":`, err?.message)
     return null
@@ -35,7 +34,7 @@ async function writeBlob(key: string, data: unknown): Promise<void> {
   try {
     const body = JSON.stringify(data)
     await put(key, body, {
-      access: 'public',
+      access: 'private',
       contentType: 'application/json',
       allowOverwrite: true
     })

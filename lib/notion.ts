@@ -89,12 +89,10 @@ const getNavigationLinkPages = pMemoize(
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
   // Check Blob cache first (populated daily by cron job)
   const cached = await getPageFromBlob(pageId)
-  if (cached) {
-    return cached
-  }
 
-  // Fall back to live Notion API
-  let recordMap = await notionConcurrencyLimit(() => getPageWithRetry(pageId))
+  // Fall back to live Notion API if not cached
+  let recordMap =
+    cached ?? (await notionConcurrencyLimit(() => getPageWithRetry(pageId)))
 
   if (navigationStyle !== 'default') {
     // ensure that any pages linked to in the custom navigation header have
