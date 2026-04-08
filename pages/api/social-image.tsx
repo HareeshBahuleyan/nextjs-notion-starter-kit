@@ -1,7 +1,7 @@
 import ky from 'ky'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import { ImageResponse } from 'next/og'
-import { type Block, type PageBlock } from 'notion-types'
+import { type PageBlock } from 'notion-types'
 import {
   getBlockIcon,
   getBlockTitle,

@@ -27,10 +27,9 @@ export const oembed = async ({
   if (pageTitle) title = pageTitle
 
   const user = getBlockValue(page.notion_user[Object.keys(page.notion_user)[0]!])
-  const name = [user.given_name, user.family_name]
-    .filter(Boolean)
-    .join(' ')
-    .trim()
+  const name = user
+    ? [user.given_name, user.family_name].filter(Boolean).join(' ').trim()
+    : ''
   if (name) authorName = name
 
   const params: any = { lite: 'true' }
