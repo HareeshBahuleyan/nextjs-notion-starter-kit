@@ -21,13 +21,41 @@ export const config = { maxDuration: 300 }
 const MIN_DELAY_MS = 500
 const limit = pLimit(1)
 
-async function fetchPageWithDelay(
+async function fetchPageWithRetry(
   pageId: string,
-  opts?: any
+  opts?: any,
+  retries = 7,
+  baseDelayMs = 5000
 ): Promise<ExtendedRecordMap> {
-  const result = await notion.getPage(pageId, opts)
-  await new Promise((resolve) => setTimeout(resolve, MIN_DELAY_MS))
-  return result
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const result = await notion.getPage(pageId, opts)
+      // Minimum delay between requests to stay well under 3 req/sec
+      await new Promise((resolve) => setTimeout(resolve, MIN_DELAY_MS))
+      return result
+    } catch (err: any) {
+      const is429or503 =
+        err?.status === 429 ||
+        err?.status === 503 ||
+        err?.statusCode === 429 ||
+        err?.statusCode === 503 ||
+        String(err?.message).includes('429') ||
+        String(err?.message).includes('503')
+      if (is429or503 && attempt < retries) {
+        // Full jitter: random in [baseDelay, baseDelay * 2^attempt] to avoid thundering herd
+        const cap = baseDelayMs * 2 ** attempt
+        const wait =
+          baseDelayMs + Math.floor(Math.random() * (cap - baseDelayMs))
+        console.warn(
+          `[sync-notion] rate limit for page ${pageId}, retrying in ${wait}ms (attempt ${attempt + 1}/${retries})`
+        )
+        await new Promise((resolve) => setTimeout(resolve, wait))
+      } else {
+        throw err
+      }
+    }
+  }
+  throw new Error(`Failed to fetch page ${pageId} after ${retries} retries`)
 }
 
 export default async function handler(
@@ -56,7 +84,7 @@ export default async function handler(
       rootNotionPageId,
       rootNotionSpaceId ?? undefined,
       (pageId: string, opts?: any) =>
-        limit(() => fetchPageWithDelay(pageId, opts)),
+        limit(() => fetchPageWithRetry(pageId, opts)),
       { concurrency: 1, maxDepth: 1 }
     )
 
@@ -68,10 +96,15 @@ export default async function handler(
 
     await storeSiteMapInBlob(siteMap)
 
-    // Enrich and store each page
+    // Enrich and store each page — reuse recordMaps already fetched by getAllPagesInSpace
     for (const pageId of Object.keys(pageMap)) {
       try {
-        const recordMap = await limit(() => fetchPageWithDelay(pageId))
+        const recordMap = pageMap[pageId]
+        if (!recordMap) {
+          failedPageIds.push(pageId)
+          failedPageErrors.push({ pageId, error: 'recordMap is null' })
+          continue
+        }
 
         if (isPreviewImageSupportEnabled) {
           const previewImageMap = await getPreviewImageMap(recordMap)
