@@ -1,10 +1,11 @@
 import ky from 'ky'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import { ImageResponse } from 'next/og'
-import { type Block, type PageBlock } from 'notion-types'
+import { type PageBlock } from 'notion-types'
 import {
   getBlockIcon,
   getBlockTitle,
+  getBlockValue,
   getPageProperty,
   isUrl,
   parsePageId
@@ -178,7 +179,7 @@ export async function getNotionPageInfo({
   const recordMap = await notion.getPage(pageId)
 
   const keys = Object.keys(recordMap?.block || {})
-  const block = recordMap?.block?.[keys[0]!]?.value as Block | undefined
+  const block = getBlockValue(recordMap?.block?.[keys[0]!])
 
   if (!block) {
     throw new Error('Invalid recordMap for page')
