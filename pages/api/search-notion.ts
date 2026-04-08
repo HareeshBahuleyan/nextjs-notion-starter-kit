@@ -1,6 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from 'next'
 
 import type * as types from '../../lib/types'
+import { normalizeSearchResults } from '../../lib/normalize-search-results'
 import { search } from '../../lib/notion'
 
 export default async function searchNotion(
@@ -14,7 +15,7 @@ export default async function searchNotion(
   const searchParams: types.SearchParams = req.body
 
   console.log('<<< lambda search-notion', searchParams)
-  const results = await search(searchParams)
+  const results = normalizeSearchResults(await search(searchParams))
   console.log('>>> lambda search-notion', results)
 
   res.setHeader(
