@@ -48,6 +48,7 @@ export default async function handler(
 
   const syncedPageIds: string[] = []
   const failedPageIds: string[] = []
+  const failedPageErrors: Array<{ pageId: string; error: string }> = []
 
   try {
     // Fetch fresh site map directly (not memoized)
@@ -83,6 +84,7 @@ export default async function handler(
       } catch (err: any) {
         console.error(`[sync-notion] failed to sync page ${pageId}:`, err?.message)
         failedPageIds.push(pageId)
+        failedPageErrors.push({ pageId, error: err?.message ?? String(err) })
       }
     }
 
@@ -90,7 +92,7 @@ export default async function handler(
       ok: true,
       synced: syncedPageIds.length,
       failed: failedPageIds.length,
-      failedPageIds
+      failedPageIds: failedPageErrors
     })
   } catch (err: any) {
     console.error('[sync-notion] fatal error:', err?.message)
