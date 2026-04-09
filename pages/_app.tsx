@@ -65,7 +65,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <ErrorBoundary key={router.asPath}>
+      <ErrorBoundary resetKey={router.asPath}>
         <Component {...pageProps} />
       </ErrorBoundary>
       <Analytics />

@@ -1,20 +1,25 @@
-import * as React from 'react'
 import { posthog } from 'posthog-js'
+import * as React from 'react'
 
 import { posthogId } from '@/lib/config'
 
 import { PageHead } from './PageHead'
 import styles from './styles.module.css'
 
-export function ErrorPage({ statusCode }: { statusCode: number }) {
+interface ErrorPageProps {
+  statusCode: number
+  skipCapture?: boolean
+  onReset?: () => void
+}
+
+export function ErrorPage({ statusCode, skipCapture, onReset }: ErrorPageProps) {
   const title = 'Error'
 
   React.useEffect(() => {
-    if (posthogId) {
+    if (posthogId && !skipCapture) {
       posthog.capture('page_error', { statusCode })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [statusCode, skipCapture])
 
   return (
     <>
@@ -25,6 +30,12 @@ export function ErrorPage({ statusCode }: { statusCode: number }) {
           <h1>Error Loading Page</h1>
 
           {statusCode && <p>Error code: {statusCode}</p>}
+
+          {onReset && (
+            <button onClick={onReset} style={{ marginTop: '1em', cursor: 'pointer' }}>
+              Try again
+            </button>
+          )}
 
           <img src='/error.png' alt='Error' className={styles.errorImage} />
         </main>

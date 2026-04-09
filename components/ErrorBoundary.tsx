@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { posthog } from 'posthog-js'
+import * as React from 'react'
 
 import { posthogId } from '@/lib/config'
 
@@ -7,6 +7,7 @@ import { ErrorPage } from './ErrorPage'
 
 interface Props {
   children: React.ReactNode
+  resetKey?: string
 }
 
 interface State {
@@ -23,7 +24,13 @@ export class ErrorBoundary extends React.Component<Props, State> {
     return { hasError: true }
   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
+  override componentDidUpdate(prevProps: Props) {
+    if (this.state.hasError && prevProps.resetKey !== this.props.resetKey) {
+      this.setState({ hasError: false })
+    }
+  }
+
+  override componentDidCatch(error: Error, info: React.ErrorInfo) {
     if (posthogId) {
       posthog.captureException(error, {
         componentStack: info.componentStack
@@ -31,9 +38,15 @@ export class ErrorBoundary extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  override render() {
     if (this.state.hasError) {
-      return <ErrorPage statusCode={500} />
+      return (
+        <ErrorPage
+          statusCode={500}
+          skipCapture
+          onReset={() => this.setState({ hasError: false })}
+        />
+      )
     }
 
     return this.props.children
