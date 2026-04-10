@@ -31,6 +31,7 @@ import {
   posthogId
 } from '@/lib/config'
 import { getConsent } from '@/lib/cookie-consent'
+import { installFetch4xxTracking } from '@/lib/posthog-utils'
 
 if (!isServer) {
   bootstrap()
@@ -65,6 +66,8 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     if (posthogId) {
+      installFetch4xxTracking()
+
       posthog.init(posthogId, {
         ...posthogConfig,
         loaded: (ph) => {

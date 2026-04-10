@@ -1,10 +1,23 @@
+import * as React from 'react'
+
 import type * as types from '@/lib/types'
+import { track4xxError } from '@/lib/posthog-utils'
 
 import { PageHead } from './PageHead'
 import styles from './styles.module.css'
 
 export function Page404({ site, pageId, error }: types.PageProps) {
   const title = site?.name || 'Notion Page Not Found'
+
+  React.useEffect(() => {
+    track4xxError(error?.statusCode ?? 404, {
+      source: 'page',
+      path:
+        typeof window !== 'undefined' ? window.location.pathname : undefined,
+      message:
+        error?.message || `HTTP ${error?.statusCode ?? 404} page not found`
+    })
+  }, [error?.message, error?.statusCode])
 
   return (
     <>
