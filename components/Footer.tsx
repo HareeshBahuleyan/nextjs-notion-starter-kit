@@ -25,6 +25,13 @@ export function FooterImpl() {
           <div className={styles.copyright}>
             Copyright {currentYear} {config.author}
           </div>
+          <div className={styles.legalLinks}>
+            <a href='/impressum'>Impressum</a>
+            <span className={styles.separator}>•</span>
+            <a href='/datenschutz'>Datenschutzerklärung</a>
+            <span className={styles.separator}>•</span>
+            <a href='/cookies'>Cookie-Richtlinie</a>
+          </div>
           <div className={styles.theme}>
             <a
               href='https://github.com/transitive-bullshit/nextjs-notion-starter-kit'
