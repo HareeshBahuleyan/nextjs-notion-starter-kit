@@ -2,6 +2,7 @@ import { posthog } from 'posthog-js'
 import * as React from 'react'
 
 import { posthogId } from '@/lib/config'
+import { track4xxError } from '@/lib/posthog-utils'
 
 import { PageHead } from './PageHead'
 import styles from './styles.module.css'
@@ -12,12 +13,31 @@ interface ErrorPageProps {
   onReset?: () => void
 }
 
-export function ErrorPage({ statusCode, skipCapture, onReset }: ErrorPageProps) {
+export function ErrorPage({
+  statusCode,
+  skipCapture,
+  onReset
+}: ErrorPageProps) {
   const title = 'Error'
 
   React.useEffect(() => {
     if (posthogId && !skipCapture) {
-      posthog.capture('page_error', { statusCode })
+      track4xxError(statusCode, {
+        source: 'page',
+        path:
+          typeof window !== 'undefined' ? window.location.pathname : undefined,
+        message: `HTTP ${statusCode} page error`
+      })
+
+      posthog.capture('page_error', {
+        statusCode,
+        errorType:
+          statusCode >= 400 && statusCode < 500
+            ? '4xx'
+            : statusCode >= 500
+              ? '5xx'
+              : 'other'
+      })
     }
   }, [statusCode, skipCapture])
 
@@ -32,7 +52,10 @@ export function ErrorPage({ statusCode, skipCapture, onReset }: ErrorPageProps) 
           {statusCode && <p>Error code: {statusCode}</p>}
 
           {onReset && (
-            <button onClick={onReset} style={{ marginTop: '1em', cursor: 'pointer' }}>
+            <button
+              onClick={onReset}
+              style={{ marginTop: '1em', cursor: 'pointer' }}
+            >
               Try again
             </button>
           )}
