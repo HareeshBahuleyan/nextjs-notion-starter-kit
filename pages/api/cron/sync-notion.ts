@@ -14,7 +14,11 @@ import {
 import { getCanonicalPageId } from '@/lib/get-canonical-page-id'
 import { getTweetsMap } from '@/lib/get-tweets'
 import { notion } from '@/lib/notion-api'
-import { storePageInBlob, storeSiteMapInBlob } from '@/lib/notion-blob'
+import {
+  isBlobStoreLimitError,
+  storePageInBlob,
+  storeSiteMapInBlob
+} from '@/lib/notion-blob'
 import { getPreviewImageMap } from '@/lib/preview-images'
 
 // Allow up to 5 minutes for full sync
@@ -23,6 +27,8 @@ export const config = { maxDuration: 300 }
 const MIN_DELAY_MS = 500
 const limit = pLimit(1)
 const uuid = !!includeNotionIdInUrls
+const BLOB_LIMIT_MESSAGE =
+  'Vercel Blob advanced operations limit reached; skipping remaining Blob writes until the quota resets.'
 
 async function fetchPageWithRetry(
   pageId: string,
@@ -95,16 +101,19 @@ export default async function handler(
         limit(() => fetchPageWithRetry(pageId, opts)),
       { concurrency: 1, maxDepth: 1 }
     )
+    const pageIds = Object.keys(pageMap)
 
     // Build a real canonicalPageMap — same logic as lib/get-site-map.ts
-    const canonicalPageMap = Object.keys(pageMap).reduce(
+    const canonicalPageMap = pageIds.reduce(
       (map: Record<string, string>, pageId: string) => {
         const recordMap = pageMap[pageId]
         if (!recordMap) return map
 
         const block = recordMap.block[pageId]?.value as Block | undefined
         if (
-          !(getPageProperty<boolean | null>('Public', block!, recordMap) ?? true)
+          !(
+            getPageProperty<boolean | null>('Public', block!, recordMap) ?? true
+          )
         ) {
           return map
         }
@@ -123,10 +132,32 @@ export default async function handler(
       canonicalPageMap
     }
 
-    await storeSiteMapInBlob(siteMap)
+    const respondToBlobLimit = (skippedPageCount: number) =>
+      res.status(200).json({
+        ok: true,
+        skipped: true,
+        blobLimitReached: true,
+        message: BLOB_LIMIT_MESSAGE,
+        synced: syncedPageIds.length,
+        failed: failedPageIds.length,
+        skippedPageCount,
+        failedPageIds,
+        failedPageErrors
+      })
+
+    try {
+      await storeSiteMapInBlob(siteMap)
+    } catch (err: any) {
+      if (isBlobStoreLimitError(err)) {
+        console.warn(`[sync-notion] ${BLOB_LIMIT_MESSAGE}`)
+        return respondToBlobLimit(pageIds.length)
+      }
+
+      throw err
+    }
 
     // Enrich and store each page — reuse recordMaps already fetched by getAllPagesInSpace
-    for (const pageId of Object.keys(pageMap)) {
+    for (const [index, pageId] of pageIds.entries()) {
       try {
         const recordMap = pageMap[pageId]
         if (!recordMap) {
@@ -144,7 +175,15 @@ export default async function handler(
         await storePageInBlob(pageId, recordMap)
         syncedPageIds.push(pageId)
       } catch (err: any) {
-        console.error(`[sync-notion] failed to sync page ${pageId}:`, err?.message)
+        if (isBlobStoreLimitError(err)) {
+          console.warn(`[sync-notion] ${BLOB_LIMIT_MESSAGE}`)
+          return respondToBlobLimit(pageIds.length - index)
+        }
+
+        console.error(
+          `[sync-notion] failed to sync page ${pageId}:`,
+          err?.message
+        )
         failedPageIds.push(pageId)
         failedPageErrors.push({ pageId, error: err?.message ?? String(err) })
       }
