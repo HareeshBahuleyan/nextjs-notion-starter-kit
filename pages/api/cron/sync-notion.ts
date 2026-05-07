@@ -177,7 +177,7 @@ export default async function handler(
       } catch (err: any) {
         if (isBlobStoreLimitError(err)) {
           console.warn(`[sync-notion] ${BLOB_LIMIT_MESSAGE}`)
-          return respondToBlobLimit(pageIds.length - index - 1)
+          return respondToBlobLimit(pageIds.length - index)
         }
 
         console.error(
