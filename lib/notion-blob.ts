@@ -1,9 +1,48 @@
 import type { ExtendedRecordMap } from 'notion-types'
-import { get, put } from '@vercel/blob'
+import { BlobStoreSuspendedError, get, put } from '@vercel/blob'
 
 import type { SiteMap } from './types'
 
 const BLOB_PREFIX = 'notion-cache'
+
+export class BlobStoreLimitError extends Error {
+  constructor(
+    message = 'Vercel Blob store operation failed due to quota or suspension.'
+  ) {
+    super(message)
+    this.name = 'BlobStoreLimitError'
+  }
+}
+
+export function isBlobStoreLimitError(err: unknown): boolean {
+  if (
+    err instanceof BlobStoreLimitError ||
+    err instanceof BlobStoreSuspendedError
+  ) {
+    return true
+  }
+
+  const name = String((err as any)?.name ?? '').toLowerCase()
+  const message = String((err as any)?.message ?? '').toLowerCase()
+
+  return (
+    name === 'blobstoresuspendederror' ||
+    message.includes('store has been suspended') ||
+    message.includes('store_suspended') ||
+    message.includes('advanced operation') ||
+    message.includes('quota exceeded') ||
+    message.includes('over-limit')
+  )
+}
+
+function createBlobStoreLimitError(err: unknown): BlobStoreLimitError {
+  return new BlobStoreLimitError(
+    String(
+      (err as any)?.message ??
+        'Vercel Blob store operation failed due to quota or suspension.'
+    )
+  )
+}
 
 function pageKey(pageId: string) {
   return `${BLOB_PREFIX}/page-${pageId}.json`
@@ -22,6 +61,13 @@ async function readBlob<T>(key: string): Promise<T | null> {
     const text = await new Response(result.stream).text()
     return JSON.parse(text) as T
   } catch (err: any) {
+    if (isBlobStoreLimitError(err)) {
+      console.warn(
+        `[notion-blob] blob store suspended while reading "${key}"; skipping blob cache access`
+      )
+      return null
+    }
+
     console.warn(`[notion-blob] read error for "${key}":`, err?.message)
     return null
   }
@@ -39,6 +85,10 @@ async function writeBlob(key: string, data: unknown): Promise<void> {
       allowOverwrite: true
     })
   } catch (err: any) {
+    if (isBlobStoreLimitError(err)) {
+      throw createBlobStoreLimitError(err)
+    }
+
     console.warn(`[notion-blob] write error for "${key}":`, err?.message)
   }
 }
