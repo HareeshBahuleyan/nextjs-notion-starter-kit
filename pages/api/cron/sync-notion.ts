@@ -132,7 +132,10 @@ export default async function handler(
       canonicalPageMap
     }
 
-    const respondToBlobLimit = (skippedPageCount: number) =>
+    const respondToBlobLimit = (
+      skippedPageCount: number,
+      interruptedPageId?: string
+    ) =>
       res.status(200).json({
         ok: true,
         skipped: true,
@@ -141,6 +144,7 @@ export default async function handler(
         synced: syncedPageIds.length,
         failed: failedPageIds.length,
         skippedPageCount,
+        interruptedPageId,
         failedPageIds,
         failedPageErrors
       })
@@ -177,7 +181,7 @@ export default async function handler(
       } catch (err: any) {
         if (isBlobStoreLimitError(err)) {
           console.warn(`[sync-notion] ${BLOB_LIMIT_MESSAGE}`)
-          return respondToBlobLimit(pageIds.length - index)
+          return respondToBlobLimit(pageIds.length - index - 1, pageId)
         }
 
         console.error(

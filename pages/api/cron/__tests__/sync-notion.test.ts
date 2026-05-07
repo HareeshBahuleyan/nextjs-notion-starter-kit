@@ -114,6 +114,7 @@ describe('sync-notion cron handler', () => {
       synced: 0,
       failed: 0
     })
+    expect(res.body.interruptedPageId).toBeUndefined()
     expect(storePageInBlob).not.toHaveBeenCalled()
   })
 
@@ -138,7 +139,8 @@ describe('sync-notion cron handler', () => {
       ok: true,
       skipped: true,
       blobLimitReached: true,
-      skippedPageCount: 2,
+      skippedPageCount: 1,
+      interruptedPageId: 'page-1',
       synced: 0,
       failed: 0
     })
