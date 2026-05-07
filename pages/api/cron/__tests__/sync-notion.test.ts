@@ -138,7 +138,7 @@ describe('sync-notion cron handler', () => {
       ok: true,
       skipped: true,
       blobLimitReached: true,
-      skippedPageCount: 2,
+      skippedPageCount: 1,
       synced: 0,
       failed: 0
     })

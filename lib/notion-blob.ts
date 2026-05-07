@@ -7,7 +7,7 @@ const BLOB_PREFIX = 'notion-cache'
 
 export class BlobStoreLimitError extends Error {
   constructor(
-    message = 'Vercel Blob store is suspended because the advanced operations limit was reached.'
+    message = 'Vercel Blob store operation failed due to quota or suspension.'
   ) {
     super(message)
     this.name = 'BlobStoreLimitError'
@@ -39,7 +39,7 @@ function createBlobStoreLimitError(err: unknown): BlobStoreLimitError {
   return new BlobStoreLimitError(
     String(
       (err as any)?.message ??
-        'Vercel Blob store is suspended because the advanced operations limit was reached.'
+        'Vercel Blob store operation failed due to quota or suspension.'
     )
   )
 }
