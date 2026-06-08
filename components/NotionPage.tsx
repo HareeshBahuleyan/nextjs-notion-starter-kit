@@ -21,6 +21,7 @@ import { mapImageUrl } from '@/lib/map-image-url'
 import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 
+import { AnnouncementBanner } from './AnnouncementBanner'
 import { Footer } from './Footer'
 import { Loading } from './Loading'
 import NavigationSideBar from './NavigationSideBar'
@@ -106,9 +107,7 @@ const Code = dynamic(() =>
 )
 
 const Collection = dynamic(() =>
-  import('react-notion-x/third-party/collection').then(
-    (m) => m.Collection
-  )
+  import('react-notion-x/third-party/collection').then((m) => m.Collection)
 )
 const Equation = dynamic(() =>
   import('react-notion-x/third-party/equation').then((m) => m.Equation)
@@ -224,6 +223,8 @@ export function NotionPage({
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]!]?.value as any
 
+  const isHomePage = pageId === site?.rootNotionPageId
+
   // const isRootPage =
   //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
   const isBlogPost =
@@ -299,6 +300,8 @@ export function NotionPage({
       />
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
+
+      {isHomePage && <AnnouncementBanner />}
 
       <div className='relative min-h-screen bg-white flex page-container'>
         <NavigationSideBar />
