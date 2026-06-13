@@ -223,8 +223,6 @@ export function NotionPage({
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]!]?.value as any
 
-  const isHomePage = pageId === site?.rootNotionPageId
-
   // const isRootPage =
   //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
   const isBlogPost =
@@ -301,7 +299,7 @@ export function NotionPage({
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
 
-      {isHomePage && <AnnouncementBanner />}
+      <AnnouncementBanner />
 
       <div className='relative min-h-screen bg-white flex page-container'>
         <NavigationSideBar />
